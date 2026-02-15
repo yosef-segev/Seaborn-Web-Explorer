@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="text-center">
+    <h1 class="display-4 fw-bold">Welcome to {{ dataset_name|capitalize }} Dataset Explorer</h1>
+    <p class="lead mt-3">
+        Analyze data, explore questions, and visualize insights easily.
+    </p>
+
+    <div class="mt-4">
+        <a href="/questions" class="btn btn-primary btn-lg me-3">Explore Questions</a>
+        <a href="/data" class="btn btn-outline-secondary btn-lg">View Data</a>
+    </div>
+</div>
+
+{% endblock %}

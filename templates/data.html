@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4 text-primary fw-bold border-bottom pb-2">
+    Data Viewer
+</h2>
+
+<div class="alert alert-info shadow-sm">
+    <div class="fw-semibold mb-1">How to use this page</div>
+    <ul class="mb-0">
+        <li><b>Columns</b>: comma separated (e.g. <code>age, sex, fare</code>). Leave empty to use default columns.</li>
+        <li><b>Filter</b> (optional): one column + operator + value (e.g. <code>sex == female</code>, <code>age &gt; 30</code>, <code>class contains fir</code>).</li>
+        <li><b>Limit</b>: how many rows to display.</li>
+    </ul>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label fw-bold">Columns (comma separated)</label>
+                <input
+                    type="text"
+                    name="columns"
+                    class="form-control"
+                    value="{{ columns|default('') }}"
+                    placeholder="age, sex, fare (leave empty for default columns)"
+                >
+                <div class="form-text">
+                    Leave empty to show a small default set of columns.
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Filter Column</label>
+                    <input
+                        type="text"
+                        name="filter_col"
+                        class="form-control"
+                        value="{{ filter_col|default('') }}"
+                        placeholder="e.g. sex or age"
+                    >
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label fw-bold">Operator</label>
+                    <select name="op" class="form-select">
+                        {% for o in ["==","!=",">","<",">=","<=","contains"] %}
+                            <option value="{{ o }}" {% if op|default("==") == o %}selected="selected"{% endif %}>
+                                {{ o }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Value</label>
+                    <input
+                        type="text"
+                        name="value"
+                        class="form-control"
+                        value="{{ value|default('') }}"
+                        placeholder="e.g. female, 40, S"
+                    >
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label fw-bold">Limit</label>
+                    <input
+                        type="number"
+                        name="limit"
+                        class="form-control"
+                        value="{{ limit|default(20) }}"
+                        min="1"
+                        max="500"
+                    >
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Show Data
+            </button>
+        </form>
+
+    </div>
+</div>
+
+{% if error %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Error:</strong> {{ error }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+{% if table %}
+<div class="card shadow-sm border-0">
+    <div class="card-body">
+        <h5 class="fw-semibold mb-3">Preview</h5>
+        <div class="table-responsive rounded-3 overflow-hidden">
+            {{ table|safe }}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

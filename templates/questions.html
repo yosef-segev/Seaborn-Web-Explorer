@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">Data Analysis Questions</h2>
+
+{% if instruction %}
+    <div class="alert alert-info">
+        {{ instruction }}
+    </div>
+{% endif %}
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="list-group shadow-sm">
+            <a href="/questions/1" class="list-group-item list-group-item-action {% if question_id == 1 %}active{% endif %}">
+                Overall Survival Rate
+            </a>
+            <a href="/questions/2" class="list-group-item list-group-item-action {% if question_id == 2 %}active{% endif %}">
+                Survival Rate by Sex
+            </a>
+            <a href="/questions/3" class="list-group-item list-group-item-action {% if question_id == 3 %}active{% endif %}">
+                Survival Rate by Class
+            </a>
+            <a href="/questions/4" class="list-group-item list-group-item-action {% if question_id == 4 %}active{% endif %}">
+                Age Distribution
+            </a>
+            <a href="/questions/5" class="list-group-item list-group-item-action {% if question_id == 5 %}active{% endif %}">
+                Embarked Passenger Counts
+            </a>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+
+        {% if title %}
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">{{ title }}</h4>
+                    <div class="mt-3">
+                        {{ result|safe }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if plot_url %}
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <img src="/static/plots/{{ plot_url }}" class="img-fluid rounded" alt="Plot for {{ title }}">
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}
